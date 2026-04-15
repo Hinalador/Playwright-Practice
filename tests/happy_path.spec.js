@@ -1,6 +1,22 @@
 const { test, expect } = require('@playwright/test');
 
 test.beforeEach(async ({ page }) => {
+    await page.goto('https://www.saucedemo.com/');
+    await page.getByTestId('username').fill('standard_user');
+    await page.getByTestId('password').fill('secret_sauce');
+    await page.getByTestId('login-button').click();
+});
+
+test('Validar que el contador del carrito se actualiza a 1', async ({ page }) => {
+    await page.getByTestId('add-to-cart-sauce-labs-backpack').click();
+    await expect(page.getByTestId('shopping-cart-badge')).toHaveText('1');
+
+    // await page.pause(); 
+});
+
+/* const { test, expect } = require('@playwright/test');
+
+test.beforeEach(async ({ page }) => {
     // 1. Navegar a Sauce Demo
     await page.goto('https://www.saucedemo.com/');
 
@@ -17,4 +33,4 @@ test('Validar que el contador del carrito se actualiza a 1', async ({ page }) =>
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
 
     await page.pause();
-});
+}); */
