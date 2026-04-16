@@ -13,7 +13,9 @@ test('Locator: getByPlaceholder', async ({ page }) => {
     await page.getByPlaceholder('Username').fill('standard_user');
     await page.getByPlaceholder('Password').fill('secret_sauce');
     await page.getByPlaceholder('Password').press('Enter');
-    await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
+    await page.waitForURL('**/inventory.html');
+    // El título 'Products' en SauceDemo es un <span class='title'>, no un heading
+    await expect(page.locator('.title')).toHaveText('Products');
 });
 
 // ─────────────────────────────────────────────
@@ -36,8 +38,9 @@ test('Locator: getByRole', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
     await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
     await page.getByRole('button', { name: 'Login' }).click();
-    // Verificar título de página por su rol de heading
-    await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
+    // Verificar título de página (SauceDemo usa <span class='title'>, no un heading)
+    await page.waitForURL('**/inventory.html');
+    await expect(page.locator('.title')).toHaveText('Products');
 });
 
 // ─────────────────────────────────────────────
