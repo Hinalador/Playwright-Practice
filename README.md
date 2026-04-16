@@ -70,7 +70,9 @@ Playwright-Practice/
 ├── tests/                          # Directorio de archivos de prueba
 │   ├── happy_path.spec.js          # Flujo exitoso: login + carrito
 │   ├── edge_case.spec.js           # Casos límite: usuario bloqueado, contraseña incorrecta
-│   └── locators.spec.js            # Práctica de diferentes tipos de locators
+│   ├── locators.spec.js            # Práctica de diferentes tipos de locators
+│   ├── asserts.spec.js             # Práctica de asserts y listas (ej. ordenar productos)
+│   └── compra_completa.spec.js     # Flujo End-to-End: checkout de producto completo
 ├── Practices/                      # Archivos de práctica de JavaScript
 │   ├── practice.js                 # Fundamentos de JS (variables, funciones, arrays, etc.)
 │   ├── ejercicios.js               # Ejercicios prácticos de JS
@@ -87,9 +89,11 @@ Playwright-Practice/
 
 | Archivo | Descripción | Casos que cubre |
 |---------|-------------|-----------------|
-| `happy_path.spec.js` | Flujo exitoso completo | Login con `standard_user` → agregar producto al carrito → validar contador |
+| `happy_path.spec.js` | Flujo exitoso básico | Login con `standard_user` → agregar producto al carrito → validar contador |
+| `compra_completa.spec.js`| Flujo E2E completo | Login → Agrega producto → Carrito → Formulario de Checkout → Finalización explícita |
 | `edge_case.spec.js` | Escenarios negativos | Login con usuario bloqueado (`locked_out_user`), login con contraseña incorrecta |
-| `locators.spec.js` | Práctica de locators | Uso de `getByPlaceholder`, `getByRole`, selectores CSS con `data-test` |
+| `locators.spec.js` | Práctica de locators | Uso de distintos selectores: getByTestId, getByRole, filter, CSS y encadenamiento |
+| `asserts.spec.js` | Selectores y Aserciones | Interactuar con un <select> y verificar que los elementos se ordenan correctamente |
 
 ---
 
