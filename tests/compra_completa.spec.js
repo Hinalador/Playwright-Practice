@@ -9,6 +9,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Compra completa', async ({ page }) => {
+    await page.locator('[data-test="product-sort-container"]').selectOption('hilo');
+
     await page.locator('.inventory_item')
         .filter({ hasText: 'Sauce Labs Backpack' })
         .getByRole('button', { name: 'Add to cart' })
@@ -19,8 +21,11 @@ test('Compra completa', async ({ page }) => {
     await page.getByTestId('checkout').click();
     await page.waitForURL('**/checkout-step-one.html');
     await page.getByTestId('firstName').fill('John');
+    await expect(page.getByTestId('firstName')).toHaveValue('John');
     await page.getByTestId('lastName').fill('Doe');
+    await expect(page.getByTestId('lastName')).toHaveValue('Doe');
     await page.getByTestId('postalCode').fill('12345');
+    await expect(page.getByTestId('postalCode')).toHaveValue('12345');
     await page.getByTestId('continue').click();
     await page.waitForURL('**/checkout-step-two.html');
     await expect(page.getByText('Checkout: Overview')).toBeVisible();
