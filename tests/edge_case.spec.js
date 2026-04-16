@@ -18,7 +18,7 @@ test('Login con contraseña incorrecta', async ({ page }) => {
     await page.getByTestId('password').fill('wrong_password');
     await page.getByTestId('login-button').click();
 
-    await expect(page.getByTestId('error')).toHaveText('Epic sadface: Username and password do not match any user in the system');
+    await expect(page.getByTestId('error')).toHaveText('Epic sadface: Username and password do not match any user in this service');
 });
 
 /* const { test, expect } = require('@playwright/test');
