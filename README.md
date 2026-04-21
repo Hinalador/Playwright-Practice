@@ -66,7 +66,6 @@ Playwright-Practice/
 │   ├── inventory.spec.js           # Filtros y validaciones visuales
 │   └── login.spec.js               # Casos límite de login
 ├── Practices/                      # Vanilla JS Practice Scripts
-├── ENTREVISTA_QA.md                # Preguntas teóricas de entrevista
 ├── playwright.config.js            # Configuración maestra Playwright
 ├── package.json                    # NPM Scripts y Dependencias
 └── .env.example                    # Ejemplo de estructura de secretos
