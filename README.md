@@ -9,6 +9,8 @@ Este repositorio fue refactorizado para implementar los siguientes patrones clav
 - **Page Object Model (POM):** Encapsulación de selectores y lógica de cada página en clases de ES Modules (en `/pages`).
 - **Data-Driven & `.env`:** Separación total de credenciales y *test data*. Uso de dotenv para evitar tener credenciales "hardcodeadas".
 - **Fixtures & storageState global:** Login optimizado; se ejecuta una única vez en un proyecto "setup" y el estado (sesión) es inyectado y reciclado a todos los tests concurrentes mediante la carpeta `.auth/`.
+- **Intercepción de Red y Mocking:** Implementación de simulaciones de API y manipulación de tráfico en el navegador (`page.route`).
+- **Comportamientos Avanzados:** Control multinavegador, escucha de diálogos (alertas web nativas) y manejo de múltiples contextos de pestañas interactuando con elementos aislados.
 - **Acciones GitHub CI/CD:** Corriente de Integración Continua validada al hacer commits con subida de artefactos (Reportes HTML).
 
 ---
@@ -59,10 +61,12 @@ Playwright-Practice/
 │   └── LoginPage.js
 ├── tests/                          # 🧪 Archivos de test (Specs)
 │   ├── auth.setup.js               # Script global de login
+│   ├── avanzado.spec.js            # Mocking, Redes, Alertas y Pestañas
 │   ├── checkout.spec.js            # Flujo de pago y carrito
 │   ├── inventory.spec.js           # Filtros y validaciones visuales
 │   └── login.spec.js               # Casos límite de login
 ├── Practices/                      # Vanilla JS Practice Scripts
+├── ENTREVISTA_QA.md                # Preguntas teóricas de entrevista
 ├── playwright.config.js            # Configuración maestra Playwright
 ├── package.json                    # NPM Scripts y Dependencias
 └── .env.example                    # Ejemplo de estructura de secretos
