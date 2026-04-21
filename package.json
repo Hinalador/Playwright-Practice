@@ -1,13 +1,22 @@
 {
-  "name": "practica-js",
+  "name": "playwright-portfolio",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
+  "description": "Suite E2E de nivel producción con Playwright",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "e2e",
+    "automation"
+  ],
+  "author": "Jacev",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0"
