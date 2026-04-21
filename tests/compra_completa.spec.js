@@ -32,5 +32,4 @@ test('Compra completa', async ({ page }) => {
     await page.getByTestId('finish').click();
     await page.waitForURL('**/checkout-complete.html');
     await expect(page.getByText('Thank you for your order!')).toBeVisible();
-    await page.pause();
 });
