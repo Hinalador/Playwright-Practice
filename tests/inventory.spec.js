@@ -10,6 +10,11 @@ test.describe('Inventory features @inventory', () => {
         await inventoryPage.goto();
     });
 
+    test('Debe mostrar el número correcto de productos', async ({ page }) => {
+        const count = await inventoryPage.getItemCount();
+        expect(count).toBe(testData.products.expectedCount);
+    });
+
     test('Ordenar productos de mayor a menor precio', async ({ page }) => {
         await inventoryPage.sortBy('hilo'); // Price (high to low)
         const firstPrice = await inventoryPage.getFirstItemPrice();

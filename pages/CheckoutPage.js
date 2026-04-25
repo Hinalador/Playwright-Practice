@@ -1,3 +1,7 @@
+/**
+ * Page Object Model for the Sauce Demo Checkout flow.
+ * Covers Step One (shipping info), Step Two (overview), and the completion screen.
+ */
 export class CheckoutPage {
     /**
      * @param {import('@playwright/test').Page} page 
@@ -9,6 +13,7 @@ export class CheckoutPage {
         this.lastNameInput = page.locator('[data-test="lastName"]');
         this.postalCodeInput = page.locator('[data-test="postalCode"]');
         this.continueButton = page.locator('[data-test="continue"]');
+        this.errorMessage = page.locator('[data-test="error"]');
         
         // Step Two
         this.overviewTitle = page.getByText('Checkout: Overview');

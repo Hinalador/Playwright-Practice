@@ -1,17 +1,30 @@
 # 🎭 Playwright E2E Master Suite
 
-Proyecto automatizado de pruebas E2E con [Playwright](https://playwright.dev/), usando [Sauce Demo](https://www.saucedemo.com/) como aplicación de prueba. Acondicionado con una arquitectura escalable, orientado a objetos (POM) y variables de entorno para nivel de producción.
+![Playwright Tests](https://github.com/Hinalador/Playwright-Practice/actions/workflows/playwright.yml/badge.svg)
+
+Proyecto automatizado de pruebas E2E con [Playwright](https://playwright.dev/), usando [Sauce Demo](https://www.saucedemo.com/) como aplicación de prueba. Arquitectura escalable con Page Object Model (POM), variables de entorno y CI/CD con GitHub Actions.
 
 ---
 
-## 🏗 Arquitectura y Patrones (Nivel Producción)
-Este repositorio fue refactorizado para implementar los siguientes patrones clave de cara a proyectos de gran envergadura:
-- **Page Object Model (POM):** Encapsulación de selectores y lógica de cada página en clases de ES Modules (en `/pages`).
-- **Data-Driven & `.env`:** Separación total de credenciales y *test data*. Uso de dotenv para evitar tener credenciales "hardcodeadas".
-- **Fixtures & storageState global:** Login optimizado; se ejecuta una única vez en un proyecto "setup" y el estado (sesión) es inyectado y reciclado a todos los tests concurrentes mediante la carpeta `.auth/`.
-- **Intercepción de Red y Mocking:** Implementación de simulaciones de API y manipulación de tráfico en el navegador (`page.route`).
-- **Comportamientos Avanzados:** Control multinavegador, escucha de diálogos (alertas web nativas) y manejo de múltiples contextos de pestañas interactuando con elementos aislados.
-- **Acciones GitHub CI/CD:** Corriente de Integración Continua validada al hacer commits con subida de artefactos (Reportes HTML).
+## 🛠 Tech Stack
+
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
+---
+
+## 🏗 Arquitectura y Patrones
+
+| Patrón | Descripción |
+|--------|-------------|
+| **Page Object Model** | Selectores y lógica encapsulados en clases ES Modules (`/pages`) |
+| **Data-Driven & `.env`** | Credenciales y test data centralizados, sin valores hardcodeados |
+| **Fixtures & storageState** | Login único en proyecto "setup"; sesión reciclada a todos los tests |
+| **Intercepción de Red** | Bloqueo selectivo de recursos y mocking de APIs (`page.route`) |
+| **Comportamientos Avanzados** | Multinavegador, alertas nativas, control de múltiples pestañas |
+| **CI/CD GitHub Actions** | Pipeline con caching, artefactos HTML y ejecución en cada push/PR |
 
 ---
 
@@ -49,7 +62,7 @@ cp .env.example .env
 
 ```text
 Playwright-Practice/
-├── .auth/                          # (Auto-generado) Estado de sesión guardado para saltar logins
+├── .auth/                          # (Auto-generado) Estado de sesión guardado
 ├── .github/workflows/              # Pipeline CI/CD (GitHub Actions)
 ├── data/                           # Datos centralizados
 │   ├── credentials.js              # Mapeo de credenciales (.env)
@@ -62,10 +75,9 @@ Playwright-Practice/
 ├── tests/                          # 🧪 Archivos de test (Specs)
 │   ├── auth.setup.js               # Script global de login
 │   ├── avanzado.spec.js            # Mocking, Redes, Alertas y Pestañas
-│   ├── checkout.spec.js            # Flujo de pago y carrito
-│   ├── inventory.spec.js           # Filtros y validaciones visuales
+│   ├── checkout.spec.js            # Flujo de pago y validaciones
+│   ├── inventory.spec.js           # Filtros y validaciones de inventario
 │   └── login.spec.js               # Casos límite de login
-├── Practices/                      # Vanilla JS Practice Scripts
 ├── playwright.config.js            # Configuración maestra Playwright
 ├── package.json                    # NPM Scripts y Dependencias
 └── .env.example                    # Ejemplo de estructura de secretos
@@ -75,16 +87,14 @@ Playwright-Practice/
 
 ## ▶️ NPM Scripts (Ejecución de Tests)
 
-Se han configurado atajos profesionales de NPM para levantar las pruebas:
-
 | Comando | Descripción |
 |---------|-------------|
-| `npm run test`      | Ejecuta todas las pruebas E2E en paralelo por todos los navegadores definidos en Headless Mode. |
-| `npm run test:ui`   | Ejecuta abriendo el **UI Mode interactivo** de Playwright (Excelente para desarrollar). |
+| `npm run test`      | Ejecuta todas las pruebas E2E en paralelo en Headless Mode. |
+| `npm run test:ui`   | Abre el **UI Mode interactivo** de Playwright. |
 | `npm run test:debug`| Ejecuta en modo depuración (Inspector paso a paso). |
-| `npm run report`    | Lanza un navegador mostrando el último reporte de tests en HTML generado. |
+| `npm run report`    | Muestra el último reporte HTML generado. |
 
-También puedes usar comandos nativos de Playwright según la etiqueta (*Tag*):
+También puedes filtrar por tag o navegador:
 ```bash
 npx playwright test --grep "@smoke"
 npx playwright test --grep "@inventory"
@@ -94,15 +104,15 @@ npx playwright test --project=firefox
 ---
 
 ## ⚙️ Configuración de Playwright (`playwright.config.js`)
-- `baseURL`: Pre-configurado globalmente a `https://www.saucedemo.com`.
-- **Módulos ES**: `package.json` configurado estrictamente como `"type": "module"`.
-- **Setup Automático**: El proyecto "setup" pre-ejecuta `auth.setup.js` antes de Chromium/Firefox/Webkit.
-- **Trazas**: Programado en `on-first-retry` para generar grabaciones automáticas en CI en caso de falla.
+- `baseURL`: Pre-configurado a `https://www.saucedemo.com`.
+- **ES Modules**: `package.json` configurado como `"type": "module"`.
+- **Setup Automático**: El proyecto "setup" ejecuta `auth.setup.js` antes de Chromium/Firefox/WebKit.
+- **Trazas**: Configuradas en `on-first-retry` para grabaciones automáticas en caso de fallo.
 
 ---
 
 ## 🔑 Credenciales de prueba (Sauce Demo)
-La aplicación [Sauce Demo](https://www.saucedemo.com/) soporta múltiples usuarios. Este proyecto usa `.env` para ocultar variables. Usa estos para tu entorno local:
+La aplicación [Sauce Demo](https://www.saucedemo.com/) soporta múltiples usuarios. Este proyecto usa `.env` para gestionar credenciales:
 
 - **SAUCE_USERNAME:** `standard_user`
 - **SAUCE_PASSWORD:** `secret_sauce`
@@ -110,9 +120,15 @@ La aplicación [Sauce Demo](https://www.saucedemo.com/) soporta múltiples usuar
 ---
 
 ## 📚 Recursos útiles
-- 📖 [Docs oficiales de Playwright](https://playwright.dev/docs/intro)
-- 🧪 [Sauce Demo (Demo App)](https://www.saucedemo.com/)
-- ⚙️ [Documentación Page Object Models](https://playwright.dev/docs/pom)
+- 📖 [Documentación oficial de Playwright](https://playwright.dev/docs/intro)
+- 🧪 [Sauce Demo (App de prueba)](https://www.saucedemo.com/)
+- ⚙️ [Page Object Models en Playwright](https://playwright.dev/docs/pom)
+
+---
+
+## 👤 Autor
+
+Desarrollado por **[Hinalador](https://github.com/Hinalador)** — Proyecto de portfolio en QA Automation.
 
 ---
 *Este proyecto refleja arquitecturas de automatización de pruebas escalables aplicables a proyectos reales.*

@@ -24,6 +24,11 @@ test.describe('Login functionality @login', () => {
         await expect(loginPage.errorMessage).toHaveText(testData.messages.invalidLoginError);
     });
 
+    test('Login con campos vacíos @edge', async ({ page }) => {
+        await loginPage.login('', '');
+        await expect(loginPage.errorMessage).toHaveText(testData.messages.emptyUsernameError);
+    });
+
     test('Login exitoso @smoke', async ({ page }) => {
         await loginPage.login(credentials.standardUser, credentials.password);
         await page.waitForURL('**/inventory.html');

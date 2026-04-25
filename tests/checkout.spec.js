@@ -45,4 +45,20 @@ test.describe('E2E Checkout flow @checkout', () => {
         await page.waitForURL('**/checkout-complete.html');
         await expect(checkoutPage.completeHeader).toHaveText(testData.messages.checkoutComplete);
     });
+
+    test('Debe mostrar error al intentar checkout sin datos obligatorios @edge', async ({ page }) => {
+        // Agregar un producto y llegar al checkout
+        await inventoryPage.goto();
+        await inventoryPage.addItemToCartByName(testData.products.backpack);
+        await inventoryPage.goToCart();
+        await page.waitForURL('**/cart.html');
+        await cartPage.proceedToCheckout();
+        await page.waitForURL('**/checkout-step-one.html');
+
+        // Intentar avanzar sin llenar los campos
+        await checkoutPage.submitStepOne();
+
+        // Debe mostrar mensaje de error de validación
+        await expect(checkoutPage.errorMessage).toHaveText(testData.messages.checkoutFirstNameRequired);
+    });
 });

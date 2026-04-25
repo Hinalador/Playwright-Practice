@@ -2,7 +2,8 @@ export const testData = {
     products: {
         backpack: 'Sauce Labs Backpack',
         bikeLight: 'Sauce Labs Bike Light',
-        tShirtRed: 'Test.allTheThings() T-Shirt (Red)'
+        tShirtRed: 'Test.allTheThings() T-Shirt (Red)',
+        expectedCount: 6
     },
     checkoutInfo: {
         firstName: 'John',
@@ -12,6 +13,8 @@ export const testData = {
     messages: {
         lockedLoginError: 'Epic sadface: Sorry, this user has been locked out.',
         invalidLoginError: 'Epic sadface: Username and password do not match any user in this service',
-        checkoutComplete: 'Thank you for your order!'
+        emptyUsernameError: 'Epic sadface: Username is required',
+        checkoutComplete: 'Thank you for your order!',
+        checkoutFirstNameRequired: 'Error: First Name is required'
     }
 };

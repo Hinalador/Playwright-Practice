@@ -52,30 +52,32 @@ test.describe('Técnicas Avanzadas de QA @avanzado', () => {
         await expect(page.locator('.title')).toHaveText('Products');
     });
 
-    test('4. Intercepción de Red (Mocking de APIs Públicas)', async ({ page }) => {
-        // Navegamos a una página de API pública real como reqres
-        await page.goto('https://reqres.in/');
+    test('4. Intercepción de Red (Mocking de API REST)', async ({ page }) => {
+        await page.goto('/inventory.html');
 
-        // Interceptamos su llamada a '/api/users?page=2' y la sobrescribimos (Mocking)
-        // Para que el frontend en lugar de recibir los usuarios reales, reciba data falsa.
-        await page.route('**/api/users?page=2', async route => {
-            const json = {
-                data: [{
-                    id: 999,
-                    email: "mocked@qa.com",
-                    first_name: "QA",
-                    last_name: "Mocking",
-                    avatar: "https://reqres.in/img/faces/1-image.jpg"
-                }]
+        // Interceptamos cualquier llamada a la API pública de JSONPlaceholder
+        // y la sobrescribimos con data falsa (Mocking).
+        await page.route('**/jsonplaceholder.typicode.com/users/1', async route => {
+            const mockedUser = {
+                id: 1,
+                name: 'QA Tester Mockeado',
+                email: 'mocked@qa-automation.com',
+                company: { name: 'Playwright Corp' }
             };
-            await route.fulfill({ json });
+            await route.fulfill({ json: mockedUser });
         });
 
-        // Buscamos y presionamos el botón de la página de ReqRes que ejecuta esa llamada Fetch en el Front
-        await page.locator('[data-id="users"]').click();
-        
-        // Validamos que en la pantalla el Frontend pinta la data que TÚ le inyectaste
-        await expect(page.locator('.response')).toContainText('mocked@qa.com');
+        // Ejecutamos un fetch real desde el navegador hacia la API pública.
+        // Gracias al mock, Playwright intercepta la request y devuelve NUESTRA data.
+        const userData = await page.evaluate(async () => {
+            const res = await fetch('https://jsonplaceholder.typicode.com/users/1');
+            return res.json();
+        });
+
+        // Verificamos que la respuesta recibida es la data mockeada, no la real
+        expect(userData.name).toBe('QA Tester Mockeado');
+        expect(userData.email).toBe('mocked@qa-automation.com');
+        expect(userData.company.name).toBe('Playwright Corp');
     });
 
     test('5. Debugging y Trace Viewer (Flaky test provocado)', async ({ page }) => {
@@ -84,7 +86,7 @@ test.describe('Técnicas Avanzadas de QA @avanzado', () => {
         test.skip();
         
         await page.goto('/inventory.html');
-        // Estamos buscando un elemento que NO existe para provocar el error en 500ms y arrogar el Trace Viewer.
+        // Estamos buscando un elemento que NO existe para provocar el error en 500ms y arrojar el Trace Viewer.
         await expect(page.locator('#elemento-fantasma-para-flaky-test')).toBeVisible({ timeout: 500 });
     });
 });

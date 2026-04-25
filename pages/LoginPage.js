@@ -1,5 +1,7 @@
-import { credentials } from '../data/credentials.js';
-
+/**
+ * Page Object Model for the Sauce Demo Login page.
+ * Encapsulates all selectors and actions related to user authentication.
+ */
 export class LoginPage {
     /**
      * @param {import('@playwright/test').Page} page 
@@ -16,7 +18,7 @@ export class LoginPage {
         await this.page.goto('/');
     }
 
-    async login(username = credentials.standardUser, password = credentials.password) {
+    async login(username, password) {
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
         await this.loginButton.click();

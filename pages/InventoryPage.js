@@ -1,3 +1,7 @@
+/**
+ * Page Object Model for the Sauce Demo Inventory page.
+ * Handles product listing, sorting, cart interactions, and item details.
+ */
 export class InventoryPage {
     /**
      * @param {import('@playwright/test').Page} page 
@@ -34,6 +38,10 @@ export class InventoryPage {
 
     async getFirstItemName() {
         return await this.page.locator('.inventory_item_name').first().innerText();
+    }
+
+    async getItemCount() {
+        return await this.inventoryItems.count();
     }
 
     async goToCart() {
