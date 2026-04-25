@@ -4,6 +4,8 @@
 
 Proyecto automatizado de pruebas E2E con [Playwright](https://playwright.dev/), usando [Sauce Demo](https://www.saucedemo.com/) como aplicación de prueba. Arquitectura escalable con Page Object Model (POM), variables de entorno y CI/CD con GitHub Actions.
 
+> **16 test cases** · **3 browsers** (Chromium, Firefox, WebKit) · **46 executions** per run
+
 ---
 
 ## 🛠 Tech Stack
@@ -82,6 +84,41 @@ Playwright-Practice/
 ├── package.json                    # NPM Scripts y Dependencias
 └── .env.example                    # Ejemplo de estructura de secretos
 ```
+
+---
+
+## 🧪 Cobertura de Tests
+
+### `login.spec.js` — Autenticación
+| Test | Tag | Tipo |
+|------|-----|------|
+| Login con usuario bloqueado | `@edge` | Negativo |
+| Login con credenciales incorrectas | `@edge` | Negativo |
+| Login con campos vacíos | `@edge` | Negativo |
+| Login exitoso | `@smoke` | Happy path |
+
+### `inventory.spec.js` — Inventario
+| Test | Tag | Tipo |
+|------|-----|------|
+| Número correcto de productos | `@inventory` | Integridad |
+| Ordenar precio mayor a menor | `@inventory` | Funcional |
+| Ordenar precio menor a mayor | `@inventory` | Funcional |
+| Ordenar nombre Z a A | `@inventory` | Funcional |
+
+### `checkout.spec.js` — Flujo de compra
+| Test | Tag | Tipo |
+|------|-----|------|
+| Agregar item y completar compra | `@smoke` `@e2e` | E2E |
+| Checkout sin datos obligatorios | `@edge` | Negativo |
+
+### `avanzado.spec.js` — Técnicas avanzadas
+| Test | Tag | Tipo |
+|------|-----|------|
+| Manejo de pestañas (multi-tab) | `@avanzado` | Avanzado |
+| Alertas y diálogos nativos | `@avanzado` | Avanzado |
+| Bloqueo de imágenes (network) | `@avanzado` | Avanzado |
+| Mocking de API REST | `@avanzado` | Avanzado |
+| Flaky test para Trace Viewer | `@avanzado` | Debugging |
 
 ---
 
