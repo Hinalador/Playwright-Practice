@@ -2,7 +2,11 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Técnicas Avanzadas de QA @avanzado', () => {
 
-    test('1. Manejo de Pestañas (Nuevas ventanas de contexto)', async ({ context, page }) => {
+    test('1. Manejo de Pestañas (Nuevas ventanas de contexto)', async ({ context, page, browserName }) => {
+        // Firefox y WebKit no abren nueva pestaña con target="_blank" de forma consistente
+        test.skip(browserName !== 'chromium', 'Solo Chromium maneja target="_blank" de forma confiable');
+        test.slow(); // Timeout extendido: navegamos a un sitio externo (X/Twitter)
+
         // En lugar de ir a SauceDemo, vamos a usar the-internet herokuapp o podemos forzar
         // abrir un link de red social localmente si vamos a inventory.
         await page.goto('/inventory.html'); // Requiere el login global
@@ -15,7 +19,7 @@ test.describe('Técnicas Avanzadas de QA @avanzado', () => {
 
         // Esperamos a que la nueva pestaña cargue
         const newPage = await pagePromise;
-        await newPage.waitForLoadState();
+        await newPage.waitForLoadState('domcontentloaded');
 
         // Validamos que efectivamente Playwright está controlando la nueva pestaña
         expect(newPage.url()).toContain('x.com');

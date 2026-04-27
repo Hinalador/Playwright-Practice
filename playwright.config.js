@@ -18,6 +18,9 @@ export default defineConfig({
     baseURL: 'https://www.saucedemo.com',
     trace: 'on-first-retry',
     testIdAttribute: 'data-test',
+    // Usar 'domcontentloaded' evita timeouts por carga lenta de assets externos
+    navigationTimeout: 60000,
+    actionTimeout: 15000,
   },
 
   projects: [
