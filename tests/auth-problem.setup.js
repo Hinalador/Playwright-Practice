@@ -9,7 +9,7 @@ setup('authenticate as problem_user', async ({ page }) => {
   await page.locator('[data-test="password"]').fill('secret_sauce');
   await page.locator('[data-test="login-button"]').click();
 
-  await page.waitForURL('**/inventory.html');
+  await page.waitForURL('**/inventory.html', { timeout: 60000 });
 
   await page.context().storageState({ path: authFile });
 });

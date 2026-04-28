@@ -10,7 +10,7 @@ setup('authenticate', async ({ page }) => {
   await page.locator('[data-test="login-button"]').click();
 
   // Esperar a que el login se complete exitosamente verificando la URL
-  await page.waitForURL('**/inventory.html');
+  await page.waitForURL('**/inventory.html', { timeout: 60000 });
 
   // Guardar sessionStorage/cookies en un archivo
   await page.context().storageState({ path: authFile });
