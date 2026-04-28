@@ -7,6 +7,7 @@ test.describe('Técnicas Avanzadas de QA @avanzado', () => {
     browserName,
   }) => {
     // Firefox y WebKit no abren nueva pestaña con target="_blank" de forma consistente
+    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName !== 'chromium',
       'Solo Chromium maneja target="_blank" de forma confiable',
@@ -93,6 +94,7 @@ test.describe('Técnicas Avanzadas de QA @avanzado', () => {
   test('5. Debugging y Trace Viewer (Flaky test provocado)', async ({ page }) => {
     // Para fines de validación en entrevistas o con el Trace Viewer, creamos un test que falle.
     // Solo quitale el .skip si quieres ver estallar este test localmente y jugar con el "npm run test:debug".
+    // eslint-disable-next-line playwright/no-skipped-test
     test.skip();
 
     await page.goto('/inventory.html');
