@@ -1,6 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
-import path from 'path';
 
 // Cargar variables de entorno (por defecto busca .env en la raíz)
 dotenv.config();
@@ -12,7 +11,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
-  
+
   use: {
     // Configuración Base URL para POM y Tests
     baseURL: 'https://www.saucedemo.com',
@@ -24,37 +23,69 @@ export default defineConfig({
   },
 
   projects: [
-    // Setup definition (ejecuta el auth script antes que los navegadores)
+    // ── Setup: autenticación por usuario ──
     {
-      name: 'setup',
+      name: 'setup-standard',
       testMatch: /auth\.setup\.js/,
     },
     {
-      name: 'chromium',
-      use: { 
+      name: 'setup-problem',
+      testMatch: /auth-problem\.setup\.js/,
+    },
+    {
+      name: 'setup-glitch',
+      testMatch: /auth-glitch\.setup\.js/,
+    },
+
+    // ── Tests con standard_user (la mayoría) ──
+    {
+      name: 'chromium-standard',
+      use: {
         ...devices['Desktop Chrome'],
-        // Usar los cookies y localStorage guardados por el setup
-        storageState: '.auth/state.json',
+        storageState: '.auth/standard.json',
       },
-      dependencies: ['setup']
+      dependencies: ['setup-standard'],
+      testIgnore: [/problem/, /glitch/, /\.setup\.js/],
     },
-
     {
-      name: 'firefox',
-      use: { 
+      name: 'firefox-standard',
+      use: {
         ...devices['Desktop Firefox'],
-        storageState: '.auth/state.json',
+        storageState: '.auth/standard.json',
       },
-      dependencies: ['setup']
+      dependencies: ['setup-standard'],
+      testIgnore: [/problem/, /glitch/, /\.setup\.js/],
+    },
+    {
+      name: 'webkit-standard',
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: '.auth/standard.json',
+      },
+      dependencies: ['setup-standard'],
+      testIgnore: [/problem/, /glitch/, /\.setup\.js/],
     },
 
+    // ── Tests con problem_user (Chromium) ──
     {
-      name: 'webkit',
-      use: { 
-        ...devices['Desktop Safari'],
-        storageState: '.auth/state.json',
+      name: 'chromium-problem',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: '.auth/problem.json',
       },
-      dependencies: ['setup']
+      dependencies: ['setup-problem'],
+      testMatch: /problem/,
+    },
+
+    // ── Tests con performance_glitch_user (Chromium) ──
+    {
+      name: 'chromium-glitch',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: '.auth/glitch.json',
+      },
+      dependencies: ['setup-glitch'],
+      testMatch: /glitch/,
     },
   ],
 });

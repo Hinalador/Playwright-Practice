@@ -37,6 +37,12 @@ jobs:
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
       
+    - name: Lint check
+      run: npm run lint
+
+    - name: Format check
+      run: npm run format:check
+
     - name: Run Playwright tests
       run: npx playwright test
       env:
