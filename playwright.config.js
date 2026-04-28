@@ -74,7 +74,7 @@ export default defineConfig({
         storageState: '.auth/problem.json',
       },
       dependencies: ['setup-problem'],
-      testMatch: /problem/,
+      testMatch: /problem-user\.spec\.js/,
     },
 
     // ── Tests con performance_glitch_user (Chromium) ──
@@ -85,7 +85,7 @@ export default defineConfig({
         storageState: '.auth/glitch.json',
       },
       dependencies: ['setup-glitch'],
-      testMatch: /glitch/,
+      testMatch: /glitch-user\.spec\.js/,
     },
   ],
 });
